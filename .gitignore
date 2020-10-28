@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 image.bpm
+*.azure
 .Python
 build/
 develop-eggs/
