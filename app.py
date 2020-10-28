@@ -6,6 +6,8 @@ import engine
 import numpy as np
 import json
 import joblib
+from PIL import Image
+import urllib.request
 
 app = Flask(__name__) #create the Flask app
 CORS(app)
@@ -20,20 +22,16 @@ CORS(app)
 #
 #    return loaded_model.predict(np.reshape(test_raw[0],(1,240,320,3)))[0]
 
-@app.route('/form-example', methods=['GET', 'POST']) #allow both GET and POST requests
-def form_example():
-    if request.method == 'POST':  #this block is only entered when the form is submitted
-        language = request.form.get('language')
-        framework = request.form.get('framework')
+@app.route('/img-url', methods=['POST']) #allow both GET and POST requests
+def img_url():
+    url = request.get_json()
+    urllib.request.urlretrieve(url, 'image.bmp')
+    im = Image.open("image.bmp")
+    img = np.array(im)
+    loaded_model = joblib.load(open('data/models/image_classifier_pipe.pkl', 'rb'))
+    loaded_model.predict(np.reshape(img,(1,240,320,3)))
 
-        return '''<h1>The language value is: {}</h1>
-                  <h1>The framework value is: {}</h1>'''.format(language, framework)
-
-    return '''<form method="POST">
-                  Language: <input type="text" name="language"><br>
-                  Framework: <input type="text" name="framework"><br>
-                  <input type="submit" value="Submit"><br>
-              </form>'''
+    return loaded_model.predict(np.reshape(img,(1,240,320,3)))[0]
 
 @app.route('/post-example', methods=['POST'])
 def front_api():
