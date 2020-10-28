@@ -1,10 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
-import sys
-sys.path.append('../app/')
 import engine
 import numpy as np
-import json
 import joblib
 from PIL import Image
 import urllib.request
