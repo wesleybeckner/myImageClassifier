@@ -8,7 +8,8 @@ __pycache__/
 
 # Distribution / packaging
 *image.bmp
-*.azure/
+.azure/
+myimageclassifier/.azure/
 .Python
 build/
 develop-eggs/
